@@ -33,3 +33,11 @@ const args = parse(argv, {
   array: ["input"],
 });
 ```
+
+## Benchmarks
+
+```
+ultraflag x 801,993 ops/sec ±0.40% (95 runs sampled)
+minimist x 318,623 ops/sec ±0.49% (95 runs sampled)
+yargs-parser x 23,560 ops/sec ±3.77% (91 runs sampled)
+```

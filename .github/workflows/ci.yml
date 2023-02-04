@@ -12,7 +12,9 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
+  contents: write
   pull-requests: write
+  packages: write
 
 jobs:
   build:

@@ -6,7 +6,6 @@ import type {
   BooleanType,
   StringType,
   Collectable,
-  Negatable,
   Aliases,
 } from "./types.js";
 export { ParseOptions, Args } from "./types.js";
@@ -69,14 +68,13 @@ export function parse<
     TBooleans,
     TStrings,
     TCollectable,
-    TNegatable,
+    undefined,
     TDefaults,
     TAliases
   >,
   TBooleans extends BooleanType = undefined,
   TStrings extends StringType = undefined,
   TCollectable extends Collectable = undefined,
-  TNegatable extends Negatable = undefined,
   TDefaults extends Record<string, unknown> | undefined = undefined,
   TAliases extends Aliases<TAliasArgNames, TAliasNames> | undefined = undefined,
   TAliasArgNames extends string = string,

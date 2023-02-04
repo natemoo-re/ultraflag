@@ -211,8 +211,7 @@ type ValueOf<TValue> = TValue[keyof TValue];
 /** The value returned from `parse`. */
 export type Args<
   // deno-lint-ignore no-explicit-any
-  TArgs extends Record<string, unknown> = Record<string, any>,
-  TDoubleDash extends boolean | undefined = undefined,
+  TArgs extends Record<string, unknown> = Record<string, any>
 > = Id<
   & TArgs
   & {
@@ -220,15 +219,7 @@ export type Args<
      * them. */
     _: Array<string | number | boolean>;
   }
-  & (boolean extends TDoubleDash ? DoubleDash
-    : true extends TDoubleDash ? Required<DoubleDash>
-    : Record<never, never>)
 >;
-
-type DoubleDash = {
-  /** Contains all the arguments that appear after the double dash: "--". */
-  "--"?: Array<string>;
-};
 
 /** The options for the `parse` call. */
 export interface ParseOptions<

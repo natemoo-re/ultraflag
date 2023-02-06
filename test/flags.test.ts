@@ -195,7 +195,6 @@ describe("aliases", () => {
       help: true
     };
     const result = parse(input, { alias: { h: 'help' }});
-    console.log(result)
     expect(result).toEqual(output);
   });
 
@@ -223,5 +222,25 @@ describe("aliases", () => {
       watch: true,
     };
     expect(parse(input, opts)).toEqual(output);
+  });
+});
+
+describe("special cases", () => {
+  it("just a hyphen", () => {
+    const input = ["-"];
+    const output = {
+      _: ['-'],
+    };
+    const result = parse(input);
+    expect(result).toEqual(output);
+  });
+
+  it("just a hyphen", () => {
+    const input = ["-"];
+    const output = {
+      _: ['-'],
+    };
+    const result = parse(input);
+    expect(result).toEqual(output);
   });
 });

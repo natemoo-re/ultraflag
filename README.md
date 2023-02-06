@@ -1,6 +1,6 @@
 # `ultraflag`
 
-A <1kB library for parsing CLI flags. Inspired by Deno's `std` [`flags`](https://github.com/denoland/deno_std/blob/main/flags/mod.ts) module.
+A 730B library for parsing CLI flags. Inspired by Deno's `std` [`flags`](https://github.com/denoland/deno_std/blob/main/flags/mod.ts) module.
 
 ### Features
 
@@ -37,7 +37,8 @@ const args = parse(argv, {
 ## Benchmarks
 
 ```
-ultraflag x 801,993 ops/sec ±0.40% (95 runs sampled)
-minimist x 318,623 ops/sec ±0.49% (95 runs sampled)
-yargs-parser x 23,560 ops/sec ±3.77% (91 runs sampled)
+mri           x 1,285,159 ops/sec ±0.29% (90 runs sampled)
+ultraflag     x 986,699 ops/sec ±0.38% (91 runs sampled)
+minimist      x 250,866 ops/sec ±0.59% (92 runs sampled)
+yargs-parser  x 18,153 ops/sec ±4.30% (85 runs sampled)
 ```

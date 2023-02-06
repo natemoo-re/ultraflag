@@ -9,6 +9,7 @@ specifiers:
   globby: ^13.1.2
   gzip-size: ^7.0.0
   minimist: ^1.2.7
+  mri: ^1.2.0
   npm-run-all: ^4.1.5
   prettier: ^2.5.1
   pretty-bytes: ^6.0.0
@@ -25,6 +26,7 @@ devDependencies:
   globby: 13.1.2
   gzip-size: 7.0.0
   minimist: 1.2.7
+  mri: 1.2.0
   npm-run-all: 4.1.5
   prettier: 2.7.1
   pretty-bytes: 6.0.0
@@ -1476,6 +1478,11 @@ packages:
   /mixme/0.5.4:
     resolution: {integrity: sha512-3KYa4m4Vlqx98GPdOHghxSdNtTvcP8E0kkaJ5Dlh+h2DRzF7zpuVVcA8B0QpKd11YJeP9QQ7ASkKzOeu195Wzw==}
     engines: {node: '>= 8.0.0'}
+    dev: true
+
+  /mri/1.2.0:
+    resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
+    engines: {node: '>=4'}
     dev: true
 
   /ms/2.1.2:

@@ -2,24 +2,15 @@ import benchmark from "benchmark";
 import { parse as ultraflag } from "../dist/index.js";
 import minimist from 'minimist';
 import yargs from 'yargs-parser';
+import mri from 'mri';
 
-// @ts-ignore
-const suite = new benchmark.Suite();
+const bench = new benchmark.Suite();
+const args = ['--a=1', '-b', '--bool', '--no-boop', '--multi=foo', '--multi=baz', '-xyz'];
 
-const args = `--a=1 --b=2 -c 3 -xyz -c 4`.split(' ');
-
-suite
-  .add("ultraflag", () => {
-    ultraflag(args);
-  })
-  .add("minimist", () => {
-    minimist(args);
-  })
-  .add("yargs-parser", () => {
-    yargs(args)
-  })
-  .on("cycle", (event) => {
-    console.log(String(event.target));
-  });
-
-suite.run();
+bench
+  .add('ultraflag    ', () => ultraflag(args))
+  .add('mri          ', () => mri(args))
+  .add('minimist     ', () => minimist(args))
+  .add('yargs-parser ', () => yargs(args))
+  .on('cycle', e => console.log(String(e.target)))
+  .run();

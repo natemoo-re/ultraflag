@@ -1,5 +1,11 @@
 # ultraflag
 
+## 0.1.0
+
+### Minor Changes
+
+- 07f23c7: Optimize performance by using a single loop for parsing
+
 ## 0.0.2
 
 ### Patch Changes

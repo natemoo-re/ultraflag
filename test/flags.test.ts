@@ -258,6 +258,26 @@ describe("special cases", () => {
   });
 });
 
+describe("coerce NaN guard", () => {
+  it("version-like string as positional is kept as string", () => {
+    expect(parse(["3.7.1"])).toEqual({ _: ["3.7.1"] });
+  });
+
+  it("digit-prefixed non-numeric string as positional is kept as string", () => {
+    expect(parse(["1abc"])).toEqual({ _: ["1abc"] });
+  });
+
+  it("version-like string as flag value is kept as string", () => {
+    expect(parse(["--version", "3.7.1"])).toEqual({ _: [], version: "3.7.1" });
+  });
+
+  it("valid numbers still coerce correctly", () => {
+    expect(parse(["42"])).toEqual({ _: [42] });
+    expect(parse([".5"])).toEqual({ _: [0.5] });
+    expect(parse(["3.14"])).toEqual({ _: [3.14] });
+  });
+});
+
 describe("boolean flags", () => {
   it("should handle long-form boolean flags correctly", () => {
     const input = ["--add"];

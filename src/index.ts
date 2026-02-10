@@ -61,8 +61,10 @@ const coerce = (value?: string, type?: "string" | "boolean" | "array") => {
 	if (!value) return value;
 	if (value.length > 3 && BOOL_RE.test(value)) return value === "true";
 	if (value.length > 2 && QUOTED_RE.test(value)) return value.slice(1, -1);
-	if ((value[0] === "." && /\d/.test(value[1])) || /\d/.test(value[0]))
-		return Number(value);
+	if ((value[0] === "." && /\d/.test(value[1])) || /\d/.test(value[0])) {
+		const n = Number(value);
+		if (!isNaN(n)) return n;
+	}
 	return value;
 };
 

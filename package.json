@@ -31,17 +31,17 @@
   },
   "devDependencies": {
     "@bomb.sh/tools": "^0.0.5",
-    "@changesets/cli": "^2.18.1",
+    "@changesets/cli": "^2.29.8",
     "benchmark": "^2.1.4",
-    "chalk": "^5.4.1",
-    "esbuild": "^0.25.1",
+    "chalk": "^5.6.2",
+    "esbuild": "^0.27.3",
     "gzip-size": "^7.0.0",
-    "minimist": "^1.2.7",
+    "minimist": "^1.2.8",
     "mri": "^1.2.0",
-    "prettier": "^3.5.3",
-    "pretty-bytes": "^6.0.0",
-    "typescript": "^4.7.4",
-    "vitest": "^3.0.9",
+    "prettier": "^3.8.1",
+    "pretty-bytes": "^6.1.1",
+    "typescript": "^4.9.5",
+    "vitest": "^4.0.18",
     "yargs-parser": "^21.1.1"
   },
   "publishConfig": {
@@ -57,15 +57,15 @@
   },
   "packageManager": "pnpm@10.7.0",
   "devEngines": {
-      "runtime": {
-          "name": "node",
-          "version": "22.14.0",
-          "onFail": "error"
-      },
-      "packageManager": {
-          "name": "pnpm",
-          "version": "10.7.0",
-          "onFail": "error"
-      }
+    "runtime": {
+      "name": "node",
+      "version": "22.14.0",
+      "onFail": "error"
+    },
+    "packageManager": {
+      "name": "pnpm",
+      "version": "10.7.0",
+      "onFail": "error"
+    }
   }
 }

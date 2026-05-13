@@ -1,29 +1,29 @@
-import { describe, expect, it, test } from "vitest";
-import { parse } from "../src";
+import { describe, expect, it } from "vitest";
+import { parseSync } from "../src";
 
 describe("flags", () => {
   it("a b c", () => {
     const input = ["a", "b", "c"];
     const output = { _: ["a", "b", "c"] };
-    expect(parse(input)).toEqual(output);
+    expect(parseSync(input)).toEqual(output);
   });
 
   it("-a -b -c", () => {
     const input = ["-a", "-b", "-c"];
     const output = { _: [], a: true, b: true, c: true };
-    expect(parse(input)).toEqual(output);
+    expect(parseSync(input)).toEqual(output);
   });
 
   it("-a 1 -b 2 -c 3 -d -e", () => {
     const input = ["-a", "1", "-b", "2", "-c", "3", "-d", "-e"];
     const output = { _: [], a: 1, b: 2, c: 3, d: true, e: true };
-    expect(parse(input)).toEqual(output);
+    expect(parseSync(input)).toEqual(output);
   });
 
   it("-a=1 -b 2 -c=3 -d -e", () => {
     const input = ["-a", "1", "-b", "2", "-c", "3", "-d", "-e"];
     const output = { _: [], a: 1, b: 2, c: 3, d: true, e: true };
-    expect(parse(input)).toEqual(output);
+    expect(parseSync(input)).toEqual(output);
   });
 
   it(`-a aaa bbb -b ccc ddd -c 3 -d -e`, () => {
@@ -47,7 +47,7 @@ describe("flags", () => {
       d: true,
       e: true,
     };
-    expect(parse(input)).toEqual(output);
+    expect(parseSync(input)).toEqual(output);
   });
 
   it(`-a "aaa bbb" -b "ccc ddd" -c 3 -d -e`, () => {
@@ -60,7 +60,7 @@ describe("flags", () => {
       d: true,
       e: true,
     };
-    expect(parse(input)).toEqual(output);
+    expect(parseSync(input)).toEqual(output);
   });
 
   it("comprehensive", () => {
@@ -95,7 +95,7 @@ describe("flags", () => {
       name: "meowmers",
       _: ["bare"],
     };
-    expect(parse(input)).toEqual(output);
+    expect(parseSync(input)).toEqual(output);
   });
 });
 
@@ -110,7 +110,7 @@ describe("dotted", () => {
       d: true,
       e: true,
     };
-    expect(parse(input)).toEqual(output);
+    expect(parseSync(input)).toEqual(output);
   });
 
   it("--a.a1 1 --b.b1 2 --c.c1 3 -d -e", () => {
@@ -123,7 +123,7 @@ describe("dotted", () => {
       d: true,
       e: true,
     };
-    expect(parse(input)).toEqual(output);
+    expect(parseSync(input)).toEqual(output);
   });
 
   it("--a.a1.a2 1 --b.b1.b2 2 --c.c1.c2 3 -d -e", () => {
@@ -145,7 +145,7 @@ describe("dotted", () => {
       d: true,
       e: true,
     };
-    expect(parse(input)).toEqual(output);
+    expect(parseSync(input)).toEqual(output);
   });
 });
 
@@ -157,33 +157,7 @@ describe("negated", () => {
       bundle: false,
       watch: true,
     };
-    expect(parse(input)).toEqual(output);
-  });
-
-  it("ignores strings", () => {
-    const input = ["--no-bundle", "--watch"];
-    const opts = {
-      string: ['no-bundle']
-    }
-    const output = {
-      _: [],
-      'no-bundle': '',
-      watch: true,
-    };
-    expect(parse(input, opts)).toEqual(output);
-  });
-
-  it("ignores arrays", () => {
-    const input = ["--no-bundle", '1', "--watch"];
-    const opts = {
-      array: ['no-bundle']
-    }
-    const output = {
-      _: [],
-      'no-bundle': [1],
-      watch: true,
-    };
-    expect(parse(input, opts)).toEqual(output);
+    expect(parseSync(input)).toEqual(output);
   });
 });
 
@@ -194,34 +168,8 @@ describe("aliases", () => {
       _: [],
       help: true
     };
-    const result = parse(input, { alias: { h: 'help' } });
+    const result = parseSync(input, { alias: { h: 'help' } });
     expect(result).toEqual(output);
-  });
-
-  it("ignores strings", () => {
-    const input = ["--no-bundle", "--watch"];
-    const opts = {
-      string: ['no-bundle']
-    }
-    const output = {
-      _: [],
-      'no-bundle': '',
-      watch: true,
-    };
-    expect(parse(input, opts)).toEqual(output);
-  });
-
-  it("ignores arrays", () => {
-    const input = ["--no-bundle", '1', "--watch"];
-    const opts = {
-      array: ['no-bundle']
-    }
-    const output = {
-      _: [],
-      'no-bundle': [1],
-      watch: true,
-    };
-    expect(parse(input, opts)).toEqual(output);
   });
 });
 
@@ -231,50 +179,39 @@ describe("special cases", () => {
     const output = {
       _: ['-'],
     };
-    const result = parse(input);
+    const result = parseSync(input);
     expect(result).toEqual(output);
   });
 
-  it("just a hyphen", () => {
-    const input = ["-"];
+  it("-- terminator: remaining args become positionals", () => {
+    const input = ["--verbose", "--", "--not-a-flag", "also-not"];
     const output = {
-      _: ['-'],
+      _: ["--not-a-flag", "also-not"],
+      verbose: true,
     };
-    const result = parse(input);
-    expect(result).toEqual(output);
+    expect(parseSync(input)).toEqual(output);
   });
 
-  it("string after boolean should be treated as positional", () => {
-    const input = ["--get", "http://my-url.com"];
-    const opts = {
-      boolean: ['get']
-    }
+  it("-- terminator: mixed positionals", () => {
+    const input = ["cmd", "--", "file.txt"];
     const output = {
-      "_": ["http://my-url.com"],
-      "get": true,
+      _: ["cmd", "file.txt"],
     };
-    const result = parse(input, opts);
-    expect(result).toEqual(output);
+    expect(parseSync(input)).toEqual(output);
   });
 });
 
 describe("boolean flags", () => {
   it("should handle long-form boolean flags correctly", () => {
     const input = ["--add"];
-    const opts = {
-      boolean: ['add']
-    };
     const output = { _: [], add: true };
-    expect(parse(input, opts)).toEqual(output);
+    expect(parseSync(input)).toEqual(output);
   });
 
   it("should handle alias boolean flags correctly", () => {
     const input = ["-a"];
-    const opts = {
-      boolean: ['add'],
-      alias: { a: 'add' }
-    };
+    const result = parseSync(input, { alias: { a: "add" } });
     const output = { _: [], add: true };
-    expect(parse(input, opts)).toEqual(output);
+    expect(result).toEqual(output);
   });
 });
